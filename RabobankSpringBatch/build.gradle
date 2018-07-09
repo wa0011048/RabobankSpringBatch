@@ -1,0 +1,23 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-batch:1.4.1.RELEASE'
+    compile 'mysql:mysql-connector-java:5.1.31'
+    compile 'commons-dbcp:commons-dbcp:1.4'
+    compile 'org.springframework:spring-oxm:4.3.3.RELEASE'
+    compile 'junit:junit:4.0'
+    compile 'org.springframework.boot:spring-boot-starter-test:1.4.1.RELEASE'    
+}
+
+test {
+	useJUnit {
+		includeCategories 'com.rabobank.statement_processor.MainTest';
+		}	
+}
+
+
