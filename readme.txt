@@ -10,7 +10,7 @@ SpringBatch
 
 GitHub Location :
 ------------------
-https://github.com/wa0011048/rabobank
+https://github.com/wa0011048/RabobankSpringBatch
 
 
 Language/tools/framework used:
