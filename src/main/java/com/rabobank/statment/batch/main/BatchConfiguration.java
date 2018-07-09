@@ -94,7 +94,7 @@ public class BatchConfiguration {
 	}
 
 	/**
-	 * Method to write the failure records out of input CSV file onto a result file
+	 * Method to write the failure records out of input CSV file into a result file
 	 * 
 	 * @return the ItemWriter - SpringBatch object
 	 */
@@ -116,15 +116,14 @@ public class BatchConfiguration {
 	}
 
 	/**
-	 * Method to write the failure records out of input XML file onto a result file
+	 * Method to write the failure records out of input XML file into a result file
 	 * 
 	 * @return the ItemWriter - SpringBatch object
 	 */
 	@Bean
 	public ItemWriter<StatementDTO> xmlFailureFilewriter() {
-
 		String outputFile = env.getProperty("XMLResponseFile") ;// "c://winston//XMLFailureRecords.csv";
-		log.debug("Writing cSV failures to result file : " + outputFile);
+		log.debug("Writing CSV failures to result file : " + outputFile);
 		FlatFileItemWriter<StatementDTO> writer = new FlatFileItemWriter<StatementDTO>();
 		writer.setEncoding("UTF-8");
 		writer.setResource(new FileSystemResource(outputFile));
@@ -145,11 +144,12 @@ public class BatchConfiguration {
 
 	@Bean
 	public Job processStatement(JobBuilderFactory jobs, Step step1, Step step2) {
+		log.info("starting a job : " + "processStatement");
 		return jobs.get("processStatement").flow(step1).next(step2).end().build();
 	}
 
 	/**
-	 * Method written in SpringBatch step to read the csv input records and
+	 * Step 1 - Method written using SpringBatch step to read the csv input records and
 	 * validates and write the failures onto csv file
 	 * 
 	 * @param stepBuilderFactory
@@ -162,13 +162,14 @@ public class BatchConfiguration {
 	public Step step1(StepBuilderFactory stepBuilderFactory, ItemReader<StatementDTO> csvFileReader,
 			ItemWriter<StatementDTO> csvFailureFilewriter,
 			ItemProcessor<StatementDTO, StatementDTO> statementReportProcessor) {
+		log.info("Building step1 for reading the input CSV file and write the failure records into response file");
 		return stepBuilderFactory.get("step1").<StatementDTO, StatementDTO>chunk(5).faultTolerant().skipLimit(50)
 				.noRollback(ValidationException.class).skip(ValidationException.class).reader(csvFileReader)
 				.processor(statementReportProcessor).writer(csvFailureFilewriter).build();
 	}
 
 	/**
-	 * Method written in SpringBatch step to read the xml input records and
+	 * Step 2 - Method written using SpringBatch step to read the xml input records and
 	 * validates and write the failures onto csv file
 	 * 
 	 * @param stepBuilderFactory
@@ -181,6 +182,7 @@ public class BatchConfiguration {
 	public Step step2(StepBuilderFactory stepBuilderFactory, ItemReader<StatementDTO> xmlFileReader,
 			ItemWriter<StatementDTO> xmlFailureFilewriter,
 			ItemProcessor<StatementDTO, StatementDTO> statementReportProcessor) {
+		log.info("Building step2 for reading the input XML file and write the failure records into response file");
 		return stepBuilderFactory.get("step2").<StatementDTO, StatementDTO>chunk(5).faultTolerant().skipLimit(50)
 				.noRollback(ValidationException.class).skip(ValidationException.class).reader(xmlFileReader)
 				.processor(statementReportProcessor).writer(xmlFailureFilewriter).build();
@@ -194,6 +196,7 @@ public class BatchConfiguration {
 	 * @return void
 	 */
 	public void setHeader(FlatFileItemWriter<StatementDTO> writer) {
+		log.debug("setting the header in the response file");
 		String fileHeader = "reference,description,errorMsg";
 		StringHeaderWriter headerWriter = new StringHeaderWriter(fileHeader);
 		writer.setHeaderCallback(headerWriter);

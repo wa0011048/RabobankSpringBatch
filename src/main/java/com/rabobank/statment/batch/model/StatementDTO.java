@@ -9,6 +9,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.rabobank.statment.batch.util.adapter.JaxbBigDecimalAdapter;
 
+/**
+ * StatementDTO. java class - a model for the input/output object
+ * @author wian0418
+ *
+ */
 @XmlRootElement(name = "record")
 public class StatementDTO {
 	
@@ -20,6 +25,20 @@ public class StatementDTO {
 	private BigDecimal endBalance;
 	private String errorMsg;
     
+	public StatementDTO() {
+		
+	}
+	
+	public StatementDTO(int reference, String accountNumber, String description, BigDecimal startBalance,
+			BigDecimal mutation, BigDecimal endBalance) {
+		super();
+		this.reference = reference;
+		this.accountNumber = accountNumber;
+		this.description = description;
+		this.startBalance = startBalance;
+		this.mutation = mutation;
+		this.endBalance = endBalance;
+	}
 	public String getErrorMsg() {
 		return errorMsg;
 	}
