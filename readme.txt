@@ -27,7 +27,7 @@ How to run in IDE
 4. Run the main class Main.java as a java program. This will read the file and validates and generate the result files.
 5. Run the Unit Test class MainTest.java as a java unit test.
 
-Using Gradle build tool:
+How to run using Gradle build tool:
 -------------------------
 1. Run 'gradle bootrun' from the root directory /RabobankSpringBatch/ to run the application to read the files and write the response files.
 2. Run 'gradle test' from the root directory /RabobankSpringBatch/  to run the test cases. and the results will be placed under folder - /RabobankSpringBatch/build/reports/tests/test/classes/
