@@ -1,5 +1,7 @@
 package com.rabobank.statment.batch.main;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -18,6 +20,7 @@ import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.xml.StaxEventItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -49,6 +52,7 @@ public class BatchConfiguration {
 
 	@Autowired
 	private Environment env;
+	
 	/**
 	 * Method to read input CSV file containing customer statement records
 	 * 
@@ -65,7 +69,7 @@ public class BatchConfiguration {
 
 		DelimitedLineTokenizer delimitedLineTokenizer = new DelimitedLineTokenizer();
 		delimitedLineTokenizer.setNames(
-				new String[] { "reference", "accountNumber", "description", "startBalance", "mutation", "endBalance" });
+				new String[] {"reference", "accountNumber", "description", "startBalance", "mutation", "endBalance"});
 		lineMapper.setFieldSetMapper(new StatementFieldSetMapper<StatementDTO>());
 		lineMapper.setLineTokenizer(delimitedLineTokenizer);
 		reader.setLinesToSkip(1);

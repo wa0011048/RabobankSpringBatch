@@ -1,4 +1,4 @@
-package com.rabobank.statementprocessor;
+package com.rabobank.statementprocessor; 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -7,6 +7,7 @@ import java.io.File;
 import java.math.BigDecimal;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,7 @@ import com.rabobank.statment.batch.service.StatementReportProcessorServiceImpl;
  * @author wian0418
  *
  */
+@Category(MainTest.class)
 @RunWith(SpringJUnit4ClassRunner.class) 
 @SpringBootTest(classes = Main.class) 
 @PropertySource("classpath:system.properties")
